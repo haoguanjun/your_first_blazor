@@ -1,37 +1,55 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">your_first_blazor</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-</div>
-
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+﻿<div>
+    <Switch Checked="theme == MenuTheme.Dark" OnChange=changeTheme CheckedChildren=@("Dark") UnCheckedChildren=@("Light") />
+    <br />
+    <br />
+    <Menu Theme=theme
+          OnMenuItemClicked=handleClick
+          Style=" width: 200px "
+          DefaultOpenKeys=@(new []{"sub1"})
+          SelectedKeys=@(new []{current})
+          Mode="MenuMode.Inline">
+        <SubMenu Key="sub1" TitleTemplate=@sub1Title>
+            <MenuItem>
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Home
             </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
+            </MenuItem>
+            <MenuItem>
+             <NavLink class="nav-link" href="counter">
                 <span class="oi oi-plus" aria-hidden="true"></span> Counter
             </NavLink>
-        </li>
-        <li class="nav-item px-3">
+            </MenuItem>
+            <MenuItem Key="3">
             <NavLink class="nav-link" href="fetchdata">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
             </NavLink>
-        </li>
-    </ul>
+            </MenuItem>
+            
+        </SubMenu>
+        
+    </Menu>
 </div>
 
+
 @code {
-    private bool collapseNavMenu = true;
 
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    RenderFragment sub1Title =
+        @<span>
+            <Icon Type="mail" Theme="outline"></Icon>
+            <span>Navigation One</span>
+        </span>;
 
-    private void ToggleNavMenu()
+    MenuTheme theme = MenuTheme.Dark;
+    string current = "1";
+
+    void changeTheme(bool value)
     {
-        collapseNavMenu = !collapseNavMenu;
+        this.theme = value ? MenuTheme.Dark : MenuTheme.Light;
     }
+
+    void handleClick(MenuItem e)
+    {
+        current = e.Key;
+    }
+
 }

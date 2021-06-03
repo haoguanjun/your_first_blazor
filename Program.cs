@@ -23,6 +23,9 @@ namespace your_first_blazor
         // 注册 HttpClient 服务
         builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
+        // 注册 ant design 服务
+        builder.Services.AddAntDesign();
+
         await builder.Build().RunAsync();
     }
     }
