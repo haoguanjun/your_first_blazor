@@ -12,14 +12,18 @@ namespace your_first_blazor
 {
     public class Program
     {
-        public static async Task Main(string[] args)
-        {
-            var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("#app");
+    public static async Task Main(string[] args)
+    {
+        // 
+        var builder = WebAssemblyHostBuilder.CreateDefault(args);
+        
+        // 注册根组件
+        builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+        // 注册 HttpClient 服务
+        builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-            await builder.Build().RunAsync();
-        }
+        await builder.Build().RunAsync();
+    }
     }
 }
